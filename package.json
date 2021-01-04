@@ -1,5 +1,5 @@
 {
-  "version": "0.1.8",
+  "version": "0.1.10",
   "license": "MIT",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -15,7 +15,8 @@
   "scripts": {
     "build": "tsc",
     "size": "size-limit",
-    "analyze": "size-limit --why"
+    "analyze": "size-limit --why",
+    "prepublish": "yarn build"
   },
   "peerDependencies": {},
   "husky": {
