@@ -1,0 +1,42 @@
+{
+    "$schema": "http://json-schema.org/schema",
+    "type": "object",
+    "required": ["mainInOutput", "tsconfig"],
+    "properties": {
+        "mainInOutput": {
+            "type": "string"
+        },
+        "tsconfig": {
+            "type": "string"
+        },
+        "runAndBuild": {
+            "type": "boolean"
+        },
+        "NODE_ENV": {
+            "type": "string"
+        },
+        "runOnly": {
+            "type": "boolean"
+        },
+        "copy": {
+            "type": "array",
+            "items": {
+                "type": "object"
+            },
+            "properties": {
+                "path": {
+                    "type": "string"
+                },
+                "glob": {
+                    "type": "string"
+                }
+            }
+        },
+        "clean": {
+            "type": "array",
+            "items": {
+                "type": "string"
+            }
+        }
+    }
+}

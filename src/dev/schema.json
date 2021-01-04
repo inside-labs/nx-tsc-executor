@@ -1,0 +1,46 @@
+{
+    "$schema": "http://json-schema.org/schema",
+    "type": "object",
+    "required": ["mainInOutput", "tsconfig"],
+    "properties": {
+        "mainInOutput": {
+            "type": "string"
+        },
+        "tsconfig": {
+            "type": "string"
+        },
+        "watch": {
+            "type": "array",
+            "items": {
+                "type": "string"
+            }
+        },
+        "delayBetweenRestart": {
+            "type": ["number", "string"]
+        },
+        "NODE_ENV": {
+            "type": "string"
+        },
+        "debug": {
+            "type": "boolean"
+        },
+        "debugPort": {
+            "type": "number"
+        },
+        "copy": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "required": ["path", "glob"],
+                "properties": {
+                    "path": {
+                        "type": "string"
+                    },
+                    "glob": {
+                        "type": "string"
+                    }
+                }
+            }
+        }
+    }
+}
