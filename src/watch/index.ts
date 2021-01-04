@@ -1,6 +1,5 @@
 import {BuilderContext, BuilderOutput, createBuilder} from '@angular-devkit/architect';
 import {JsonObject} from '@angular-devkit/core';
-import {ChildProcessWithoutNullStreams} from 'child_process';
 import {Observable} from 'rxjs';
 import * as shell from 'shelljs';
 import {copy} from "../helpers/copy";
@@ -58,7 +57,6 @@ let buildFunc = createBuilder<Options>((options, context): Promise<BuilderOutput
     return new Observable<BuilderOutput>((observer) => {
         try {
             concurrentlyRun(context, options).then(() => {
-                copy(options.copy)
                 observer.next({success: true});
             });
         } catch (err) {
@@ -71,32 +69,17 @@ let buildFunc = createBuilder<Options>((options, context): Promise<BuilderOutput
 export default buildFunc;
 
 async function concurrentlyRun(context: BuilderContext, options: Options) {
-    // setting the node env option by default it's production
     let NODE_ENV = options.NODE_ENV || 'development';
     let inspectWithPort = options.debugPort === undefined ? '--inspect' : `--inspect=${options.debugPort}`;
     let debug = options.debug === undefined || !options.debug ? '' : inspectWithPort;
 
-    let tscBuild = shell.exec(`tsc --build ${context.currentDirectory}/${options.tsconfig} --pretty --watch`, {
-        async: true,
-    }) as ChildProcessWithoutNullStreams;
-
-    tscBuild.stdout.on('data', (chunk: string) => {
-        // string that the typescript compilation has succeeded
-        let result = chunk.indexOf(`Found 0 errors. Watching for file changes.`);
-        if (result !== -1) {
-            // compilation succeded time to run node process
-            shell.exec(
-                `TS_NODE_PROJECT=${options.tsconfig} NODE_ENV=${NODE_ENV} nodemon --signal SIGINT ${getWatchFilesString(
-                    options,
-                )} ${debug}  --delay ${
-                    options.delayBetweenRestarts || 1.5
-                } -r tsconfig-paths/register -r ts-node/register ${context.currentDirectory}/${options.mainInOutput}`,
-                {
-                    async: true,
-                },
-            );
-        }
-    });
+    shell.exec(
+        `TS_NODE_PROJECT=${options.tsconfig} NODE_ENV=${NODE_ENV} nodemon --signal SIGINT --ext ts,json --exec ts-node ${getWatchFilesString(
+            options,
+        )} ${debug} --delay ${
+            options.delayBetweenRestarts || 2
+        } -r tsconfig-paths/register ${context.currentDirectory}/${options.mainInOutput}`,
+    );
 }
 
 /**
