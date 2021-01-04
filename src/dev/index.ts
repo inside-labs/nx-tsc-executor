@@ -5,6 +5,7 @@ import {Observable} from 'rxjs';
 import * as shell from 'shelljs';
 import {copy} from "../helpers/copy";
 import {CopyInput} from "../types";
+import './schema.json'
 
 export interface Options extends JsonObject {
     /**
