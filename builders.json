@@ -1,9 +1,14 @@
 {
     "builders": {
+        "watch": {
+            "implementation": "./dist/watch",
+            "schema": "./dist/watch/schema.json",
+            "description": "Runs the dev in watch moe for any typescript node app mode using ts-node and nodemon"
+        },
         "dev": {
             "implementation": "./dist/dev",
             "schema": "./dist/dev/schema.json",
-            "description": "Runs the dev for any typescript node app mode using ts-node and nodemon"
+            "description": "Runs the dev for any typescript node app mode using ts-node"
         },
         "build": {
             "implementation": "./dist/build",
