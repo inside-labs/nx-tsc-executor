@@ -1,0 +1,1 @@
+# NX builder to run & compile the project with tsc & ts-node instead of webpack
